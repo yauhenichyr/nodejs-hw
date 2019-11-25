@@ -1,0 +1,27 @@
+{
+  "name": "hodehw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "task1": "nodemon task1.1.js",
+    "task2": "nodemon task1.2.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evgen4ik91/nodejs-hw.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evgen4ik91/nodejs-hw/issues"
+  },
+  "homepage": "https://github.com/evgen4ik91/nodejs-hw#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
+  }
+}
