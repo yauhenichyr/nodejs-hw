@@ -28,7 +28,7 @@ fs.access(filePath, fs.F_OK, err => {
         return csvtojson().preFileLine((fileLine, i) => {
             if (i === 0) return fileLine.toLowerCase();
             return fileLine;
-        }).subscribe((jsonObj, i) => {
+        }).subscribe(jsonObj => {
             delete jsonObj.amount;
             jsonObj.price = parseFloat(jsonObj.price);
         });
