@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import csvtojson from 'csvtojson/v2';
 
-const filePath = './csv/data.csv';
+const filePath = './task1/attachments/csv/data.csv';
 
 fs.access(filePath, fs.F_OK, err => {
     if (err) {
