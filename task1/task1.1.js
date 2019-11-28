@@ -1,4 +1,3 @@
-
 let stdin = process.openStdin();
 
 stdin.addListener('data', function(data) {

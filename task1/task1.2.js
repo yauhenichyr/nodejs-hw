@@ -3,6 +3,28 @@ import csvtojson from 'csvtojson/v2';
 
 const filePath = './task1/attachments/csv/data.csv';
 
+class Convert {
+    run = path => {
+        if (!path) {
+            console.log('Path not found');
+            return;
+        }
+
+    }
+
+    checkFile = path => {
+        let ok = false;
+        fs.access(path, fs.F_OK, err => {
+            if (err) {
+                console.error(err)
+                return;
+            }
+            ok = true;
+        })
+        return ok;
+    }
+}
+
 fs.access(filePath, fs.F_OK, err => {
     if (err) {
         console.error(err)
