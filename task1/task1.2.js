@@ -10,7 +10,7 @@ fs.access(filePath, fs.F_OK, err => {
     }
 
     let readStream = fs.createReadStream(filePath);
-    let writeStream = fs.createWriteStream('./result.txt');
+    let writeStream = fs.createWriteStream('./task1/result.txt');
 
     readStream.on('error', err => {
         console.log(err);
