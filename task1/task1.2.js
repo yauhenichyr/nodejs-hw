@@ -7,7 +7,7 @@ const FSaccess = util.promisify(fs.access);
 const filePath = './task1/attachments/csv/data.csv';
 
 class Convert {
-    run = async path => {
+    async run(path) {
         if (!path) {
             console.log('Path not found');
             return;
@@ -35,7 +35,7 @@ class Convert {
         }
     }
 
-    csv = () => {
+    csv() {
         return csvtojson().preFileLine((fileLine, i) => {
             if (i === 0) return fileLine.toLowerCase();
             return fileLine;
@@ -45,7 +45,7 @@ class Convert {
         });
     }
 
-    checkFile = path => {
+    checkFile(path) {
         return FSaccess(path)
             .then(() => {return true})
             .catch(e => {
