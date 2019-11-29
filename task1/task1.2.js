@@ -1,7 +1,10 @@
 import * as fs from 'fs';
+import * as util from 'util';
 import csvtojson from 'csvtojson/v2';
 
-const filePath = './task1/attachments/csv/data.csv';
+const FSaccess = util.promisify(fs.access);
+
+const filePath = './task1/attachments/csv/data1.csv';
 
 class Convert {
     run = async path => {
@@ -10,11 +13,11 @@ class Convert {
             return;
         }
 
-        let fileOK = await this.checkFile(path);
+        let isPathAllowed = await this.checkFile(path);
 
-        if (fileOK) {
-            let readStream = fs.createReadStream(path);
-            let writeStream = fs.createWriteStream('./task1/result.txt');
+        if (isPathAllowed) {
+            const readStream = fs.createReadStream(path);
+            const writeStream = fs.createWriteStream('./task1/result.txt');
 
             readStream.on('error', err => {
                 console.log(err);
@@ -42,17 +45,15 @@ class Convert {
         });
     }
 
-    checkFile = async path => {
-        return await new Promise(res => {
-            fs.access(path, fs.F_OK, err => {
-                if (err) {
-                    throw new Error(err);
-                }
-                res(true);
-            })
-        }).catch(e => {return false});
+    checkFile = path => {
+        return FSaccess(path)
+            .then(() => {return true})
+            .catch(e => {
+                console.log(e);
+                return false
+            });
     }
 }
 
-let convert = new Convert;
+let convert = new Convert();
 convert.run(filePath);
