@@ -4,7 +4,7 @@ import csvtojson from 'csvtojson/v2';
 
 const FSaccess = util.promisify(fs.access);
 
-const filePath = './task1/attachments/csv/data1.csv';
+const filePath = './task1/attachments/csv/data.csv';
 
 class Convert {
     run = async path => {
