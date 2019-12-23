@@ -26,7 +26,15 @@ interface UserRequestSchema extends ValidatedRequestSchema {
   }
 }
 
-let users = [
+type userModel = {
+  id: string,
+  login: string,
+  password: string,
+  age: number,
+  isDeleted: boolean,
+}
+
+let users : Array<userModel> = [
   {
     id: '0',
     login: 'login1',
@@ -51,8 +59,24 @@ let users = [
 ]
 
 function getUsers(req : any, res : any) {
-  if (users) res.json(users);
-  else res.status(404).json({message: `Users not found`})
+  if (req.query.login) {
+    let filteredUsers : Array<userModel> = getAutoSuggestUsers(req.query.login, req.query.limit);
+    if (filteredUsers.length) res.json(filteredUsers);
+    else res.status(404).json({message: `Users not found`});
+  } else {
+    if (users) res.json(users);
+    else res.status(404).json({message: `Users not found`});
+  }
+}
+
+function getAutoSuggestUsers(login : string, limit : number = 3) : Array<userModel> {
+  if (!login) {
+    return [];
+  }
+
+  return users.filter(user => user.login.includes(login))
+    .slice(0, limit)
+    .sort((a, b) => a.login.localeCompare(b.login));
 }
 
 function getUser(req : any, res : any) {
