@@ -43,7 +43,7 @@ export default class UserService {
         }
 
         const userRecord = await UserModel.findOne(queryParam);
-        
+
         userRecord.login = user.login;
         userRecord.password = user.password;
         userRecord.age = user.age;
@@ -51,8 +51,14 @@ export default class UserService {
         await userRecord.save();
         return { user: userRecord };
     }
-    async remove(user: any) {
-        const userRecord = await UserModel.create(user);
+    async remove(id: string) {
+        const queryParam = {
+            where: {
+                id
+            },
+        }
+
+        const userRecord = await UserModel.findOne(queryParam);
         await userRecord.destroy();
         return { user: userRecord };
     }
