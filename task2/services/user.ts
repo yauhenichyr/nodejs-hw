@@ -19,7 +19,7 @@ export default class UserService {
                     $contains: [query.login],
                 }
             },
-            limit: query.limit || 0,
+            limit: query.limit || 3,
         }
 
         const userRecords = await UserModel.findAll(queryParam);
@@ -35,10 +35,10 @@ export default class UserService {
         await userRecord.save();
         return userRecord;
     }
-    async update(user: any) {
+    async update(id: string, user: any) {
         const queryParam = {
             where: {
-                id: user.id
+                id
             },
         }
 
