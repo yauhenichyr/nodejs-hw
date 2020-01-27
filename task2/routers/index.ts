@@ -1,6 +1,6 @@
 import express from 'express';
 import { Controller } from './controller';
-import { validatorMW } from './validator';
+import { validatorMW } from '../validators/validator';
 
 const router = express.Router();
 
