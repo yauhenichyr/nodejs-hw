@@ -6,7 +6,6 @@ const sequelize = new Sequelize(dbConf.uri, {
     dialectOptions: {
         ssl: true
     },
-    logging: console.log,
 });
 
 class UserModel extends Model {}

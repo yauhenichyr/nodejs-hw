@@ -1,4 +1,5 @@
 import UserModel from '../models/user';
+import { Op } from 'sequelize';
 
 export default class UserService {
     async get(id: string) {
@@ -10,15 +11,17 @@ export default class UserService {
 
         const userRecord = await UserModel.findOne(queryParam);
 
-        return { user: userRecord };
+        return userRecord;
     }
     async getAll(query: any) {
         const queryParam = {
-            where: {
-                login: {
-                    $contains: [query.login],
-                }
-            },
+            ...(
+                query.login && {where: {
+                    login: {
+                        [Op.iLike]: `%${query.login}%`
+                    }
+                }}
+            ),
             limit: query.limit || 3,
         }
 
@@ -33,6 +36,7 @@ export default class UserService {
             age: user.age,
         });
         await userRecord.save();
+
         return userRecord;
     }
     async update(id: string, user: any) {
@@ -43,12 +47,14 @@ export default class UserService {
         }
 
         const userRecord = await UserModel.findOne(queryParam);
+        if (userRecord) {
+            userRecord.login = user.login;
+            userRecord.password = user.password;
+            userRecord.age = user.age;
 
-        userRecord.login = user.login;
-        userRecord.password = user.password;
-        userRecord.age = user.age;
-
-        await userRecord.save();
+            await userRecord.save();
+        }
+        
         return { user: userRecord };
     }
     async remove(id: string) {
@@ -59,8 +65,9 @@ export default class UserService {
         }
 
         const userRecord = await UserModel.findOne(queryParam);
-        await userRecord.destroy();
-        return { user: userRecord };
+        if (userRecord) await userRecord.destroy();
+
+        return userRecord;
     }
     
 }
