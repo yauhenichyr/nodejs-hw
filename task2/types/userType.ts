@@ -3,5 +3,4 @@ export type userType = {
     login: string,
     password: string,
     age: number,
-    isDeleted: boolean,
 }
