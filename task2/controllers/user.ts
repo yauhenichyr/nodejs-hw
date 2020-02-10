@@ -1,5 +1,5 @@
 import { userType } from '../types/userType';
-import { UserRequestSchema } from '../validators/validator';
+import { UserRequestSchema } from '../validators/user';
 import { ValidatedRequest } from 'express-joi-validation';
 import UserService from '../services/user';
 

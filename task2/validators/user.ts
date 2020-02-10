@@ -13,7 +13,7 @@ const userSchema = Joi.object({
     age: Joi.number().min(4).max(130).required(),
 });
 
-export const validatorMW = validator.body(userSchema);
+export const userValidator = validator.body(userSchema);
 
 export interface UserRequestSchema extends ValidatedRequestSchema {
     [ContainerTypes.Query]: {

@@ -1,16 +1,16 @@
 import express from 'express';
 import { UserController } from '../controllers/user';
-import { validatorMW } from '../validators/validator';
+import { userValidator } from '../validators/user';
 
-const router = express.Router();
+const userRouter = express.Router();
 
 const user = new UserController();
 
-router.get('/', user.getUsers_get)
-router.post('/', validatorMW, user.createUser_post)
+userRouter.get('/', user.getUsers_get)
+userRouter.post('/', userValidator, user.createUser_post)
 
-router.get('/:id', user.getUser_get)
-router.put('/:id', validatorMW, user.updateUser_put)
-router.delete('/:id', user.deleteUser_delete)
+userRouter.get('/:id', user.getUser_get)
+userRouter.put('/:id', userValidator, user.updateUser_put)
+userRouter.delete('/:id', user.deleteUser_delete)
 
-export = router;
+export = userRouter;
