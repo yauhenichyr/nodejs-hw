@@ -55,7 +55,7 @@ export default class UserService {
             await userRecord.save();
         }
         
-        return { user: userRecord };
+        return userRecord;
     }
     async remove(id: string) {
         const queryParam = {

@@ -16,7 +16,7 @@ GroupModel.init({
         allowNull: false
     },
     permissions: {
-        type: DataTypes.ARRAY,
+        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false
     },
 }, {

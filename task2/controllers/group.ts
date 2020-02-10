@@ -12,9 +12,9 @@ export class GroupController {
     }
 
     getGroups_get = async (req : any, res : any) => {
-        let filteredUsers : Array<groupType> = await groupService.getAll({...req.query});
+        let allGroups : Array<groupType> = await groupService.getAll();
 
-        if (filteredUsers) res.json(filteredUsers);
+        if (allGroups) res.json(allGroups);
         else this.logger404(res);
     }
     getGroup_get = async (req : any, res : any) => {
@@ -23,21 +23,21 @@ export class GroupController {
         else this.logger404(res, req.params.id);
     }
     deleteGroup_delete = async (req : any, res : any) => {
-        const deletedUser = await groupService.remove(req.params.id);
+        const deletedGroup = await groupService.remove(req.params.id);
 
-        if (deletedUser) res.json(deletedUser);
+        if (deletedGroup) res.json(deletedGroup);
         else this.logger404(res, req.params.id);
     }
     updateGroup_put = async (req : ValidatedRequest<GroupRequestSchema>, res : any) => {
-        const updatedUser = await groupService.update(req.params.id, {...req.body})
+        const updatedGroup = await groupService.update(req.params.id, {...req.body})
 
-        if (updatedUser) res.json(updatedUser);
+        if (updatedGroup) res.json(updatedGroup);
         else this.logger404(res, req.params.id);
     }
     createGroup_post = async (req : ValidatedRequest<GroupRequestSchema>, res : any) => {
-        const newUser = await groupService.create({...req.body});
+        const newGroup = await groupService.create({...req.body});
 
-        if (newUser) res.json(newUser);
+        if (newGroup) res.json(newGroup);
         else this.logger404(res);
     }
 }

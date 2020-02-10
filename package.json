@@ -8,6 +8,7 @@
     "task1.2": "nodemon --exec babel-node ./task1/task1.2.js",
     "task2": "ts-node-dev --respawn --transpileOnly ./task2/app.ts",
     "task3": "ts-node-dev --respawn --transpileOnly ./task2/app.ts",
+    "task4": "ts-node-dev --respawn --transpileOnly ./task2/app.ts",
     "tsc": "tsc"
   },
   "repository": {

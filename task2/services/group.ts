@@ -13,49 +13,36 @@ export default class UserService {
 
         return userRecord;
     }
-    async getAll(query: any) {
-        const queryParam = {
-            ...(
-                query.login && {where: {
-                    login: {
-                        [Op.iLike]: `%${query.login}%`
-                    }
-                }}
-            ),
-            limit: query.limit || 3,
-        }
+    async getAll() {
+        const groupRecords = await GroupModel.findAll();
 
-        const userRecords = await GroupModel.findAll(queryParam);
-
-        return userRecords;
+        return groupRecords;
     }
-    async create(user: any) {
-        const userRecord = await GroupModel.create({
-            login: user.login,
-            password: user.password,
-            age: user.age,
+    async create(group: any) {
+        const groupRecord = await GroupModel.create({
+            name: group.name,
+            permissions: group.permissions,
         });
-        await userRecord.save();
+        await groupRecord.save();
 
-        return userRecord;
+        return groupRecord;
     }
-    async update(id: string, user: any) {
+    async update(id: string, group: any) {
         const queryParam = {
             where: {
                 id
             },
         }
 
-        const userRecord = await GroupModel.findOne(queryParam);
-        if (userRecord) {
-            userRecord.login = user.login;
-            userRecord.password = user.password;
-            userRecord.age = user.age;
+        const groupRecord = await GroupModel.findOne(queryParam);
+        if (groupRecord) {
+            groupRecord.name = group.name;
+            groupRecord.permissions = group.permissions;
 
-            await userRecord.save();
+            await groupRecord.save();
         }
         
-        return { user: userRecord };
+        return groupRecord;
     }
     async remove(id: string) {
         const queryParam = {
