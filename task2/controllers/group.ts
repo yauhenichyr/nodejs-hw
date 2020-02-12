@@ -12,7 +12,7 @@ export class GroupController {
     }
 
     getGroups_get = async (req : any, res : any) => {
-        let allGroups : Array<groupType> = await groupService.getAll();
+        let allGroups = await groupService.getAll();
 
         if (allGroups) res.json(allGroups);
         else this.logger404(res);

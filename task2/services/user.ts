@@ -3,15 +3,11 @@ import { Op } from 'sequelize';
 
 export default class UserService {
     async get(id: string) {
-        const queryParam = {
+        return await UserModel.findOne({
             where: {
                 id
             },
-        }
-
-        const userRecord = await UserModel.findOne(queryParam);
-
-        return userRecord;
+        });
     }
     async getAll(query: any) {
         const queryParam = {
@@ -25,9 +21,7 @@ export default class UserService {
             limit: query.limit || 3,
         }
 
-        const userRecords = await UserModel.findAll(queryParam);
-
-        return userRecords;
+        return await UserModel.findAll(queryParam);
     }
     async create(user: any) {
         const userRecord = await UserModel.create({
@@ -58,13 +52,11 @@ export default class UserService {
         return userRecord;
     }
     async remove(id: string) {
-        const queryParam = {
+        const userRecord = await UserModel.findOne({
             where: {
                 id
             },
-        }
-
-        const userRecord = await UserModel.findOne(queryParam);
+        });
         if (userRecord) await userRecord.destroy();
 
         return userRecord;

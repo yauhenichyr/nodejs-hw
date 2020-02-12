@@ -1,32 +1,28 @@
-import { Sequelize, DataTypes, Model } from 'sequelize';
-import dbConf from '../config/db'
-const sequelize = new Sequelize(dbConf.uri, {
-    dialect: 'postgres',
-    protocol: 'postgres',
-    dialectOptions: {
-        ssl: true
-    },
-});
+import { Table, Column, Model, BelongsToMany } from 'sequelize-typescript';
 
-class UserModel extends Model {}
+import UserGroupModel from './userGroup';
+import GroupModel from './group';
 
-UserModel.init({
-    login: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    age: {
-        type: DataTypes.NUMBER,
-        allowNull: false
-    },
-}, {
-  sequelize,
-  modelName: 'User'
-});
+@Table({
+    tableName: 'Users'
+})
+class UserModel extends Model<UserModel> {
+    @Column({
+        primaryKey: true,
+    })
+    id: number;
 
+    @Column
+    login: string;
+
+    @Column
+    password: string;
+
+    @Column
+    age: number;
+
+    @BelongsToMany(() => GroupModel, () => UserGroupModel)
+    groups: GroupModel[];
+}
 
 export default UserModel;
