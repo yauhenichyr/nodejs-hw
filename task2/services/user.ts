@@ -1,13 +1,21 @@
+import sequelize from '../dbinit';
+
 import UserModel from '../models/user';
+import UserGroupModel from '../models/userGroup';
+import GroupService from './group';
 import { Op } from 'sequelize';
 
+const groupService = new GroupService();
+
 export default class UserService {
-    async get(id: string) {
-        return await UserModel.findOne({
+    async get(id: string, groups: boolean, transaction: any) {
+        let user = await UserModel.findOne({
             where: {
-                id
+                id,
+                transaction: transaction || null,
             },
         });
+        return groups ? user.groups : user;
     }
     async getAll(query: any) {
         const queryParam = {
@@ -24,42 +32,43 @@ export default class UserService {
         return await UserModel.findAll(queryParam);
     }
     async create(user: any) {
-        const userRecord = await UserModel.create({
+        return await UserModel.create({
             login: user.login,
             password: user.password,
             age: user.age,
         });
-        await userRecord.save();
-
-        return userRecord;
     }
     async update(id: string, user: any) {
-        const queryParam = {
-            where: {
-                id
-            },
-        }
-
-        const userRecord = await UserModel.findOne(queryParam);
-        if (userRecord) {
-            userRecord.login = user.login;
-            userRecord.password = user.password;
-            userRecord.age = user.age;
-
-            await userRecord.save();
-        }
-        
-        return userRecord;
-    }
-    async remove(id: string) {
-        const userRecord = await UserModel.findOne({
+        return await UserModel.update({
+            login: user.login,
+            password: user.password,
+            age: user.age,
+        }, {
             where: {
                 id
             },
         });
-        if (userRecord) await userRecord.destroy();
-
-        return userRecord;
     }
-    
+    async addToGroup(id: string, groupID: string) {
+        await sequelize.transaction(async tr => {
+            const user = await this.get(id, false, tr);
+            const gr = await groupService.get(groupID, tr);
+            if (user && gr) {
+                return await UserGroupModel.create({
+                    user_id: id,
+                    group_id: groupID,
+                }, {
+                    transaction: tr
+                })
+            }
+            return null;
+        });
+    }
+    async remove(id: string) {
+        return await UserModel.destroy({
+            where: {
+                id
+            },
+        });
+    }
 }

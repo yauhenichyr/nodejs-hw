@@ -1,4 +1,4 @@
-import { Table, Column, Model, BelongsToMany } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, BelongsToMany } from 'sequelize-typescript';
 
 import UserGroupModel from './userGroup';
 import GroupModel from './group';
@@ -8,7 +8,10 @@ import GroupModel from './group';
 })
 class UserModel extends Model<UserModel> {
     @Column({
+        type: DataType.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
+        allowNull: false,
     })
     id: number;
 

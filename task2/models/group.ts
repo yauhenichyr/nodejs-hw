@@ -8,6 +8,9 @@ import UserGroupModel from './userGroup';
 })
 export default class GroupModel extends Model<GroupModel> {
     @Column({
+        type: DataType.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
         primaryKey: true,
     })
     id: number;

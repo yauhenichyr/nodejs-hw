@@ -1,4 +1,3 @@
-import { groupType } from '../types/groupType';
 import { GroupRequestSchema } from '../validators/group';
 import { ValidatedRequest } from 'express-joi-validation';
 import GroupService from '../services/group';
@@ -18,7 +17,7 @@ export class GroupController {
         else this.logger404(res);
     }
     getGroup_get = async (req : any, res : any) => {
-        const user = await groupService.get(req.params.id);
+        const user = await groupService.get(req.params.id, null);
         if (user) res.json(user);
         else this.logger404(res, req.params.id);
     }

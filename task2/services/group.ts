@@ -1,10 +1,11 @@
 import GroupModel from '../models/group';
 
-export default class UserService {
-    async get(id: string) {
+export default class GroupService {
+    async get(id: string, transaction: any) {
         return await GroupModel.findOne({
             where: {
-                id
+                id,
+                transaction: transaction || null,
             },
         });
     }
@@ -28,16 +29,11 @@ export default class UserService {
         });
     }
     async remove(id: string) {
-        const queryParam = {
+        return await GroupModel.destroy({
             where: {
                 id
             },
-        }
-
-        const userRecord = await GroupModel.findOne(queryParam);
-        if (userRecord) await userRecord.destroy();
-
-        return userRecord;
+        });
     }
     
 }

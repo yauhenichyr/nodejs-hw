@@ -1,4 +1,3 @@
-import { userType } from '../types/userType';
 import { UserRequestSchema } from '../validators/user';
 import { ValidatedRequest } from 'express-joi-validation';
 import UserService from '../services/user';
@@ -12,13 +11,13 @@ export class UserController {
     }
 
     getUsers_get = async (req : any, res : any) => {
-        let filteredUsers : Array<userType> = await userService.getAll({...req.query});
+        let filteredUsers = await userService.getAll({...req.query});
 
         if (filteredUsers) res.json(filteredUsers);
         else this.logger404(res);
     }
     getUser_get = async (req : any, res : any) => {
-        const user = await userService.get(req.params.id);
+        const user = await userService.get(req.params.id, req.query.groups === 'true', null);
         if (user) res.json(user);
         else this.logger404(res, req.params.id);
     }
@@ -30,6 +29,12 @@ export class UserController {
     }
     updateUser_put = async (req : ValidatedRequest<UserRequestSchema>, res : any) => {
         const updatedUser = await userService.update(req.params.id, {...req.body})
+
+        if (updatedUser) res.json(updatedUser);
+        else this.logger404(res, req.params.id);
+    }
+    addUserToGroup_put = async(req : any, res : any) => {
+        const updatedUser = await userService.addToGroup(req.params.id, req.params.group)
 
         if (updatedUser) res.json(updatedUser);
         else this.logger404(res, req.params.id);
