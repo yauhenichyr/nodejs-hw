@@ -3,17 +3,17 @@ import sequelize from '../dbinit';
 import UserModel from '../models/user';
 import UserGroupModel from '../models/userGroup';
 import GroupService from './group';
-import { Op } from 'sequelize';
+import { Op, Transaction } from 'sequelize';
 
 const groupService = new GroupService();
 
 export default class UserService {
-    async get(id: string, groups: boolean, transaction: any) {
+    async get(id: string, groups: boolean, transaction?: Transaction) {
         let user = await UserModel.findOne({
             where: {
                 id,
-                transaction: transaction || null,
             },
+            transaction,
         });
         return groups ? user.groups : user;
     }
@@ -50,7 +50,7 @@ export default class UserService {
         });
     }
     async addToGroup(id: string, groupID: string) {
-        await sequelize.transaction(async tr => {
+        await sequelize.transaction(async (tr: Transaction) => {
             const user = await this.get(id, false, tr);
             const gr = await groupService.get(groupID, tr);
             if (user && gr) {

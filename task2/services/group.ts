@@ -1,12 +1,12 @@
 import GroupModel from '../models/group';
 
 export default class GroupService {
-    async get(id: string, transaction: any) {
+    async get(id: string, transaction?: any) {
         return await GroupModel.findOne({
             where: {
                 id,
-                transaction: transaction || null,
             },
+            transaction,
         });
     }
     async getAll() {
