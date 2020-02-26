@@ -1,16 +1,22 @@
 import express from 'express';
-import morgan from 'morgan';
+import httpLogger from './utils/httpLogger';
+import httpErrHandler from './utils/httpErrHandler';
+//import logger from './utils/logger';
 import routes from './routes/index';
 import sequelize from './dbinit';
+import initErrHandler from './utils/errHandler';
 
 const seq = sequelize;
+initErrHandler();
 
 const app: express.Application = express();
+const PORT = 3000;
 
 app.use(express.json());
-app.use(morgan('combined'))
+app.use(httpErrHandler);
+app.use(httpLogger);
 app.use('/', routes);
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen(PORT, function () {
+  console.log(`Server listening on port ${PORT}`);
 });
