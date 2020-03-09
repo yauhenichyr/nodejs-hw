@@ -1,5 +1,7 @@
+import logger from './logger';
+
 const httpLogger = function(req: any, res: any, next: any) {
-    console.log(req.method);
+    logger.info(req.method);
     next();
 }
 
