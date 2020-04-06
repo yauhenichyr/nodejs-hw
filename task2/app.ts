@@ -1,7 +1,9 @@
+import dotenv from 'dotenv'
+dotenv.config();
+
 import express from 'express';
 import httpLogger from './utils/httpLogger';
 import httpErrHandler from './utils/httpErrHandler';
-//import logger from './utils/logger';
 import routes from './routes/index';
 import sequelize from './dbinit';
 import initErrHandler from './utils/errHandler';
