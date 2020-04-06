@@ -7,9 +7,9 @@ import { Op, Transaction } from 'sequelize';
 
 const groupService = new GroupService();
 
-export default class UserService {
+class UserService {
     async get(id: string, groups: boolean, transaction?: Transaction) {
-        let user = await UserModel.findOne({
+        let user : any = await UserModel.findOne({
             where: {
                 id,
             },
@@ -72,3 +72,5 @@ export default class UserService {
         });
     }
 }
+
+export default new UserService();
