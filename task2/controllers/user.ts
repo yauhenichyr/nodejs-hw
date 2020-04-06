@@ -1,12 +1,10 @@
 import { UserRequestSchema } from '../validators/user';
 import { ValidatedRequest } from 'express-joi-validation';
-import UserService from '../services/user';
+import userService from '../services/user';
 
 import logger from '../utils/logger'
 
-const userService = new UserService();
-
-export class UserController {
+class UserController {
     private set404status(response: any, message: string) {
         logger.error(message);
         response.status(404).json({message});
@@ -19,7 +17,7 @@ export class UserController {
         else this.set404status(res, `[${req.method}] Users not found`);
     }
     getUser_get = async (req : any, res : any) => {
-        const user = await userService.get(req.params.id, req.query.groups === 'true', null);
+        const user = await userService.get(req.params.id, req.query.groups === 'true');
         if (user) res.json(user);
         else this.set404status(res, `[${req.method}] User with id ${req.params.id} not found`);
     }
@@ -38,7 +36,7 @@ export class UserController {
     addUserToGroup_put = async(req : any, res : any) => {
         const updatedUser = await userService.addToGroup(req.params.id, req.params.group)
 
-        if (updatedUser) res.json(updatedUser);
+        if (updatedUser as any) res.json(updatedUser);
         else this.set404status(res, `[${req.method}] User with id ${req.params.id} not found`);
     }
     createUser_post = async (req : ValidatedRequest<UserRequestSchema>, res : any) => {
@@ -48,3 +46,5 @@ export class UserController {
         else this.set404status(res, `[${req.method}] User wasn't created`);
     }
 }
+
+export default new UserController();
